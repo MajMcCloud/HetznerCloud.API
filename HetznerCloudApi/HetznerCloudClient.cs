@@ -16,6 +16,7 @@ namespace HetznerCloudApi
             Firewall = new FirewallClient(token);
             FirewallAction = new FirewallActionClient(token);
             Image = new ImageClient(token);
+            ISO = new ISOClient(token);
             Location = new LocationClient(token);
             Network = new NetworkClient(token);
             NetworkAction = new NetworkActionClient(token);
@@ -33,6 +34,7 @@ namespace HetznerCloudApi
         public FirewallClient Firewall { get; private set; }
         public FirewallActionClient FirewallAction { get; private set; }
         public ImageClient Image { get; private set; }
+        public ISOClient ISO { get; private set; }
         public LocationClient Location { get; private set; }
         public NetworkClient Network { get; private set; }
         public NetworkActionClient NetworkAction { get; private set; }
