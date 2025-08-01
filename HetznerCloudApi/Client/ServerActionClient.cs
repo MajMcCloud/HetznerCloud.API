@@ -4,6 +4,7 @@ using HetznerCloudApi.Object.ServerAction;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace HetznerCloudApi.Client
@@ -48,7 +49,7 @@ namespace HetznerCloudApi.Client
             }
         }
 
-       
+
         /// <summary>
         /// Returns a specific Action object.
         /// </summary>
@@ -252,6 +253,128 @@ namespace HetznerCloudApi.Client
             };
 
             return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/detach_from_network", request);
+        }
+
+        /// <summary>
+        /// Enables and configures the automatic daily backup option for the Server.  <para><c>Enabling automatic backups will increase the price of the Server by 20%. </c></para> In return, you will get seven slots where Images of type backup can be stored.
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <returns></returns>
+        public async Task<Action> EnableBackup(long id)
+        {
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/enable_backup");
+        }
+
+        /// <summary>
+        /// Disables the automatic backup option and deletes all existing Backups for a Server. No more additional charges for backups will be made.
+        /// <para><c>Caution: This immediately removes all existing backups for the Server!</c></para>
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <returns></returns>
+        public async Task<Action> DisableBackup(long id)
+        {
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/disable_backup");
+        }
+
+        /// <summary>
+        /// Enable the Hetzner Rescue System for this Server. The next time a Server with enabled rescue mode boots it will start a special minimal Linux distribution designed for repair and reinstall.
+        ///<para>In case a Server cannot boot on its own you can use this to access a Server’s disks.</para>
+        ///<para>Rescue Mode is automatically disabled when you first boot into it or if you do not use it for 60 minutes</para>
+        ///<para><c>Enabling rescue mode will not reboot your Server — you will have to do this yourself.</c></para>
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <param name="type">Type of rescue system to boot. (Allowed: linux64, Default: linux64)</param>
+        /// <returns></returns>
+        public async Task<Action> EnableRescueMode(long id, string type)
+        {
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/enable_rescue");
+        }
+
+        /// <summary>
+        /// Disables the Hetzner Rescue System for a Server. This makes a Server start from its disks on next reboot.
+        /// <para>Rescue Mode is automatically disabled when you first boot into it or if you do not use it for 60 minutes.</para>
+        /// <para><c>Disabling rescue mode will not reboot your Server — you will have to do this yourself.</c></para>
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <returns></returns>
+        public async Task<Action> DisableRescueMode(long id)
+        {
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/disable_rescue");
+        }
+
+        /// <summary>
+        /// Adds a Server to a Placement Group.
+        /// <para><c>Server must be powered off for this command to succeed.</c></para>
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <returns></returns>
+        public async Task<Action> AddToPlacementGroup(long id)
+        {
+            // Preparing raw
+            string raw = $"{{ \"placement_group\": {id} }}";
+
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/add_to_placement_group", raw);
+        }
+
+        /// <summary>
+        /// Removes a Server from a Placement Group.
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <returns></returns>
+        public async Task<Action> RemoveFromPlacementGroup(long id)
+        {
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/remove_from_placement_group");
+        }
+
+        /// <summary>
+        /// Resets the root password. <c>Only works for Linux systems that are running the qemu guest agent.</c> 
+        /// <para>Server must be <c>powered on (status running)</c> in order for this operation to succeed.</para>
+        ///
+        /// <para>This will generate a new password for this Server and return it.</para>
+        ///
+        /// <para>If this does not succeed you can use the rescue system to netboot the Server and manually change your Server password by hand.</para>
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <returns></returns>
+        public async Task<ResetRootPasswordResponse> ResetRootPassword(long id)
+        {
+            return await Core.SendPostRequest<ResetRootPasswordResponse>(_token, $"/servers/{id}/actions/reset_password");
+        }
+
+        /// <summary>
+        /// Requests credentials for remote access via VNC over websocket to keyboard, monitor, and mouse for a Server. The provided URL is valid for 1 minute, after this period a new url needs to be created to connect to the Server. How long the connection is open after the initial connect is not subject to this timeout.
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <returns></returns>
+        public async Task<RequestConsoleResponse> RequestConsole(long id)
+        {
+            return await Core.SendPostRequest<RequestConsoleResponse>(_token, $"/servers/{id}/actions/request_console");
+        }
+
+        /// <summary>
+        /// Attaches an ISO to a Server. The Server will immediately see it as a new disk. An already attached ISO will automatically be detached before the new ISO is attached.
+
+        /// Servers with attached ISOs have a modified boot order: They will try to boot from the ISO first before falling back to hard disk.
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <param name="iso">ID or name of ISO to attach to the Server as listed in GET /isos.</param>
+        /// <returns></returns>
+        public async Task<Action> AttachISO(long id, string iso)
+        {
+            // Preparing raw
+            string raw = $"{{ \"iso\": \"{iso}\" }}";
+
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/attach_iso", raw);
+        }
+
+        /// <summary>
+        /// Detaches an ISO from a Server. In case no ISO Image is attached to the Server, the status of the returned Action is immediately set to success.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Action> DetachISO(long id)
+        {
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/detach_iso");
         }
     }
 }
