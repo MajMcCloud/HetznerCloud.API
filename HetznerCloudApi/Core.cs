@@ -67,8 +67,7 @@ namespace HetznerCloudApi
         {
             var jsonResponse = await SendPostRequest(token, url);
 
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<T>($"{result["action"]}") ?? default(T);
+            return JsonConvert.DeserializeObject<T>(jsonResponse) ?? default(T);
         }
 
         public static async Task<T> SendPostRequest<T>(string token, string url, object content)
@@ -78,8 +77,7 @@ namespace HetznerCloudApi
 
             var jsonResponse = await SendPostRequest(token, url, raw);
 
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<T>($"{result["action"]}") ?? default(T);
+            return JsonConvert.DeserializeObject<T>(jsonResponse) ?? default(T);
         }
 
         public static async Task<string> SendPostRequest(string token, string url, string content)
