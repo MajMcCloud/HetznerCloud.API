@@ -1,9 +1,11 @@
 ﻿using HetznerCloudApi.Object.Action;
 using HetznerCloudApi.Object.Action.Get;
+using HetznerCloudApi.Object.ISOs;
 using HetznerCloudApi.Object.ServerAction;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -370,11 +372,86 @@ namespace HetznerCloudApi.Client
         /// <summary>
         /// Detaches an ISO from a Server. In case no ISO Image is attached to the Server, the status of the returned Action is immediately set to success.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">ID of the Server.</param>
         /// <returns></returns>
         public async Task<Action> DetachISO(long id)
         {
             return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/detach_iso");
+        }
+
+        /// <summary>
+        /// Changes the alias IPs of an already attached Network. Note that the existing aliases for the specified Network will be replaced with these provided in the request body. So if you want to add an alias IP, you have to provide the existing ones from the Network plus the new alias IP in the request body.
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <param name="network">ID of an existing Network already attached to the Server.</param>
+        /// <param name="alias_ips">New alias IPs to set for this Server.</param>
+        /// <returns></returns>
+        public async Task<Action> ChangeAliasIPs(long id, long network, string[] alias_ips)
+        {
+            var request = new ChangeAliasIPRequest
+            {
+                Network = network,
+                Alias_IPs = alias_ips
+            };
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/change_alias_ips", request);
+        }
+
+        /// <summary>
+        /// Changes the hostname that will appear when getting the hostname belonging to the primary IPs (IPv4 and IPv6) of this Server.
+        /// <para><c>Floating IPs assigned to the Server are not affected by this.</c></para>
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <param name="ip">Primary IP address for which the reverse DNS entry should be set.</param>
+        /// <param name="dns_ptr">Hostname to set as a reverse DNS PTR entry, reset to original value if null.</param>
+        /// <returns></returns>
+        public async Task<Action> ChangeReverseDNSEntry(long id, string ip, string dns_ptr)
+        {
+            var request = new ChangeReverseDNSEntryRequest
+            {
+                IP = ip,
+                DNS_Ptr = dns_ptr
+            };
+
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/change_dns_ptr", request);
+        }
+
+        /// <summary>
+        /// Creates an Image (snapshot) from a Server by copying the contents of its disks. This creates a snapshot of the current state of the disk and copies it into an Image. If the Server is currently running you must make sure that its disk content is consistent. Otherwise, the created Image may not be readable.
+        /// <para>To make sure disk content is consistent, we recommend to shut down the Server prior to creating an Image.</para>
+        /// <para>You can either create a backup Image that is bound to the Server and therefore will be deleted when the Server is deleted, or you can create a snapshot Image which is completely independent of the Server it was created from and will survive Server deletion. Backup Images are only available when the backup option is enabled for the Server. Snapshot Images are billed on a per GB basis.</para>
+        /// </summary>
+        /// <param name="id">ID of the Server.</param>
+        /// <param name="description">Description of the Image, will be auto-generated if not set.</param>
+        /// <param name="type">Type of Image to create. (Allowed: snapshot backup, Default: snapshot)</param>
+        /// <param name="labels">User-defined labels (key/value pairs) for the Resource. For more information, see "Labels".</param>
+        /// <returns></returns>
+        public async Task<Action> CreateImage(long id, string description, string type, Dictionary<string, string> labels)
+        {
+            var request = new CreateImageRequest
+            {
+                Description = description,
+                Type = type,
+                Labels = labels
+            };
+
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/create_image", request);
+        }
+
+        /// <summary>
+        /// <c>Rebuilds a Server overwriting its disk with the content of an Image, thereby destroying all data on the target Server</c>
+        /// <para>The Image can either be one you have created earlier(backup or snapshot Image) or it can be a completely fresh system Image provided by us.</para>
+        /// <para>You can get a list of all available Images with GET /images.</para>
+        /// <para>Your Server will automatically be powered off before the rebuild command executes.</para>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public async Task<RebuildFromImageResponse> RebuildFromImage(long id, string image)
+        {
+            // Preparing raw
+            string raw = $"{{ \"image\": \"{image}\" }}";
+
+            return await Core.SendPostRequest<RebuildFromImageResponse>(_token, $"/servers/{id}/actions/rebuild", raw);
         }
     }
 }

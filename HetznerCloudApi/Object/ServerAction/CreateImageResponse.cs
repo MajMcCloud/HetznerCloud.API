@@ -1,15 +1,17 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HetznerCloudApi.Object.ServerAction
 {
-    public class ResetRootPasswordResponse
+    public class CreateImageResponse
     {
-        [JsonProperty("root_password", NullValueHandling = NullValueHandling.Ignore)]
-        public string RootPassword { get; set; } = string.Empty;
+        [JsonProperty("image", NullValueHandling = NullValueHandling.Ignore)]
+        public Image.Image Image { get; set; }
 
         [JsonProperty("action", NullValueHandling = NullValueHandling.Ignore)]
         public Action.Action Action { get; set; }
+
     }
 }
