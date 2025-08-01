@@ -9,31 +9,31 @@ namespace HetznerCloudApi.Object.ISOs
     public class ISO
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
-        public string description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string type { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty("deprecation", NullValueHandling = NullValueHandling.Ignore)]
-        public Deprecation deprecation { get; set; }
+        public Deprecation Deprecation { get; set; }
 
         [JsonProperty("architecture", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public eArchitectureType architecture { get; set; }
+        public eArchitectureType Architecture { get; set; }
     }
 
     public class Deprecation
     {
         [JsonProperty("unavailable_after", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime unavailable_after { get; set; }
+        public DateTime Unavailable_After { get; set; }
 
         [JsonProperty("announced", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime announced { get; set; }
+        public DateTime Announced { get; set; }
     }
 }
