@@ -4,7 +4,7 @@ using System;
 
 namespace HetznerCloudApi.Object.Action
 {
-    public class Action
+    public partial class Action
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long Id { get; set; } = 0;
@@ -38,5 +38,13 @@ namespace HetznerCloudApi.Object.Action
 
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
         public string Type { get; set; } = string.Empty;
+    }
+
+    public enum eActionStatus
+    {
+        Unknown,
+        Running,
+        Success,
+        Error,
     }
 }

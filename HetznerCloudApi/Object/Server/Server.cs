@@ -5,7 +5,7 @@ using System;
 
 namespace HetznerCloudApi.Object.Server
 {
-    public class Server
+    public partial class Server
     {
         /// <summary>
         /// ID of the Resource
@@ -189,5 +189,18 @@ namespace HetznerCloudApi.Object.Server
 
         [JsonProperty("mac_address", NullValueHandling = NullValueHandling.Ignore)]
         public string MacAddress { get; set; } = string.Empty;
+    }
+
+    public enum eServerStatus
+    {
+        Unknown,
+        Initializing,
+        Running,
+        Starting,
+        Stopping,
+        Off,
+        Rebuilding,
+        Migrating,
+        Deleting,
     }
 }
