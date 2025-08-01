@@ -1,5 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace HetznerCloudApi.Object.Image
 {
@@ -82,8 +83,8 @@ namespace HetznerCloudApi.Object.Image
         //[JsonProperty("deprecated")]
         //public object Deprecated { get; set; }
 
-        //[JsonProperty("labels")]
-        //public Labels Labels { get; set; }
+        [JsonProperty("labels")]
+        public Dictionary<string, string> Labels { get; set; }
 
         //[JsonProperty("deleted")]
         //public object Deleted { get; set; }

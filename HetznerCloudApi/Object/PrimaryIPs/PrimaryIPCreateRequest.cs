@@ -10,8 +10,8 @@ namespace HetznerCloudApi.Object.PrimaryIPs
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        //[JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
-        //public Labels Labels { get; set; }
+        [JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, string> Labels { get; set; }
 
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
         public string Type { get; set; }

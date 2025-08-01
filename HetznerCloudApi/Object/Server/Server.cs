@@ -105,8 +105,8 @@ namespace HetznerCloudApi.Object.Server
         [JsonProperty("protection", NullValueHandling = NullValueHandling.Ignore)]
         public Protection Protection { get; set; } = new Protection();
 
-        //[JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
-        //public Labels Labels { get; set; }
+        [JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string,string> Labels { get; set; }
 
         /// <summary>
         /// IDs of Volumes assigned to this Server

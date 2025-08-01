@@ -19,8 +19,8 @@ namespace HetznerCloudApi.Object.Firewall
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; } = string.Empty;
 
-        //[JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
-        //public Labels Labels { get; set; }
+        [JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, string> Labels { get; set; }
 
         /// <summary>
         /// Point in time when the Resource was created

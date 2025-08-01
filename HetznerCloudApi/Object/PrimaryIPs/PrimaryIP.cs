@@ -16,8 +16,8 @@ namespace HetznerCloudApi.Object.PrimaryIPs
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        //[JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
-        //public Labels labels { get; set; }
+        [JsonProperty("labels", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, string> Labels { get; set; }
 
         [JsonProperty("created", NullValueHandling = NullValueHandling.Ignore)]
         public DateTime Created { get; set; }
