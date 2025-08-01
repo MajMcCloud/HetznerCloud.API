@@ -21,7 +21,8 @@ namespace HetznerCloudApi.Object.Image
         /// Whether the Image can be used or if it's still being created or unavailable
         /// </summary>
         [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public string Status { get; set; } = string.Empty;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public eImageStatus Status { get; set; } = eImageStatus.Unknown;
 
         /// <summary>
         /// Unique identifier of the Image. This value is only set for system Images.
@@ -91,5 +92,13 @@ namespace HetznerCloudApi.Object.Image
         /// </summary>
         [JsonProperty("architecture", NullValueHandling = NullValueHandling.Ignore)]
         public string Architecture { get; set; } = string.Empty;
+    }
+
+    public enum eImageStatus
+    {
+        Unknown,
+        Available,
+        Creating,
+        Unavailable,
     }
 }
