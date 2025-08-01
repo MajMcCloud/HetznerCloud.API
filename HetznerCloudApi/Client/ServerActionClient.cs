@@ -1,8 +1,9 @@
 ﻿using HetznerCloudApi.Object.Action;
-using HetznerCloudApi.Object.Network;
+using HetznerCloudApi.Object.Action.Get;
 using HetznerCloudApi.Object.ServerAction;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HetznerCloudApi.Client
@@ -14,6 +15,87 @@ namespace HetznerCloudApi.Client
         public ServerActionClient(string token)
         {
             _token = token;
+        }
+
+        /// <summary>
+        /// Returns all Action objects. You can sort the results by using the sort URI parameter, and filter them with the status and id parameter.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Action>> GetActions()
+        {
+            List<Action> list = new List<Action>();
+            long page = 0;
+            while (true)
+            {
+                // Nex
+                page++;
+
+                // Get list
+                Response response = JsonConvert.DeserializeObject<Response>(await Core.SendGetRequest(_token, $"/server/actions?page={page}&per_page={Core.PerPage}")) ?? new Response();
+
+                // Run
+                foreach (Action row in response.Actions)
+                {
+                    list.Add(row);
+                }
+
+                // Finish?
+                if (response.Meta.Pagination.NextPage == 0)
+                {
+                    // Yes, finish
+                    return list;
+                }
+            }
+        }
+
+       
+        /// <summary>
+        /// Returns a specific Action object.
+        /// </summary>
+        /// <param name="actionId">ID of the Action</param>
+        /// <returns></returns>
+        public async Task<Action> Get(long actionId)
+        {
+            // Get list
+            string json = await Core.SendGetRequest(_token, $"/servers/actions/{actionId}");
+
+            // Set
+            JObject result = JObject.Parse(json);
+            Action action = JsonConvert.DeserializeObject<Action>($"{result["action"]}") ?? new Action();
+
+            // Return
+            return action;
+        }
+
+        /// <summary>
+        /// Returns all Action objects for a Server. You can sort the results by using the sort URI parameter, and filter them with the status parameter.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Action>> GetServerActions(long Id)
+        {
+            List<Action> list = new List<Action>();
+            long page = 0;
+            while (true)
+            {
+                // Nex
+                page++;
+
+                // Get list
+                Response response = JsonConvert.DeserializeObject<Response>(await Core.SendGetRequest(_token, $"/server/{Id}/actions?page={page}&per_page={Core.PerPage}")) ?? new Response();
+
+                // Run
+                foreach (Action row in response.Actions)
+                {
+                    list.Add(row);
+                }
+
+                // Finish?
+                if (response.Meta.Pagination.NextPage == 0)
+                {
+                    // Yes, finish
+                    return list;
+                }
+            }
         }
 
         /// <summary>
