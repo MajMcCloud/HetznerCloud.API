@@ -1,5 +1,6 @@
-﻿using HetznerCloudApi.Object.Universal;
 ﻿using HetznerCloudApi.Object.ISOs;
+using HetznerCloudApi.Object.PrimaryIPs;
+using HetznerCloudApi.Object.Universal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -157,8 +158,8 @@ namespace HetznerCloudApi.Object.Server
         [JsonProperty("blocked", NullValueHandling = NullValueHandling.Ignore)]
         public bool Blocked { get; set; } = false;
 
-        //[JsonProperty("dns_ptr", NullValueHandling = NullValueHandling.Ignore)]
-        //public string DnsPtr { get; set; } = string.Empty;
+        [JsonProperty("dns_ptr", NullValueHandling = NullValueHandling.Ignore)]
+        public DnsPtr[] DnsPtr { get; set; }
 
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long Id { get; set; } = 0;
