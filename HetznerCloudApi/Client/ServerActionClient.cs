@@ -122,9 +122,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="id">ID of the Server.</param>
         /// <returns></returns>
-        public async Task PowerOn(long id)
+        public async Task<Action> PowerOn(long id)
         {
-            await Core.SendPostRequest(_token, $"/servers/{id}/actions/poweron");
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/poweron");
         }
 
         /// <summary>
@@ -132,9 +132,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="id">ID of the Server.</param>
         /// <returns></returns>
-        public async Task PowerOff(long id)
+        public async Task<Action> PowerOff(long id)
         {
-            await Core.SendPostRequest(_token, $"/servers/{id}/actions/poweroff");
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/poweroff");
         }
 
         /// <summary>
@@ -142,9 +142,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="id">ID of the Server.</param>
         /// <returns></returns>
-        public async Task SoftReboot(long id)
+        public async Task<Action> SoftReboot(long id)
         {
-            await Core.SendPostRequest(_token, $"/servers/{id}/actions/reboot");
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/reboot");
         }
 
         /// <summary>
@@ -152,9 +152,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="id">ID of the Server.</param>
         /// <returns></returns>
-        public async Task Reset(long id)
+        public async Task<Action> Reset(long id)
         {
-            await Core.SendPostRequest(_token, $"/servers/{id}/actions/reset");
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/reset");
         }
 
         /// <summary>
@@ -162,9 +162,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="id">ID of the Server.</param>
         /// <returns></returns>
-        public async Task Shutdown(long id)
+        public async Task<Action> Shutdown(long id)
         {
-            await Core.SendPostRequest(_token, $"/servers/{id}/actions/shutdown");
+            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/shutdown");
         }
 
         /// <summary>
