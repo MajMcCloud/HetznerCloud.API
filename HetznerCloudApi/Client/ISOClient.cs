@@ -26,7 +26,7 @@ namespace HetznerCloudApi.Client
             long page = 0;
             while (true)
             {
-                // Nex
+                // Next
                 page++;
 
                 // Get list
