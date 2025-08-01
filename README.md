@@ -66,8 +66,8 @@ PM> dotnet add package HetznerCloud.API
 | Locations         | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: |
 | Networks          | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_sign: |
 | Networks Actions  | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_check\_mark: |
-| Servers           | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_mark: |
-| Servers Actions   | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_mark: | :heavy\_minus\_mark: | :heavy\_minus\_mark: | :heavy\_check\_mark: |
+| Servers           | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_sign: |
+| Servers Actions   | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_check\_mark: |
 | Server Types      | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: | :heavy\_minus\_sign: |
 | SSH Keys          | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_sign: |
 | Volumes           | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_minus\_sign: |
