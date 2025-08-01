@@ -1,4 +1,5 @@
 ﻿using HetznerCloudApi.Object.Universal;
+﻿using HetznerCloudApi.Object.ISOs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -63,8 +64,8 @@ namespace HetznerCloudApi.Object.Server
         [JsonProperty("image", NullValueHandling = NullValueHandling.Ignore)]
         public Image.Image Image { get; set; } = new Image.Image();
 
-        //[JsonProperty("iso", NullValueHandling = NullValueHandling.Ignore)]
-        //public object Iso { get; set; }
+        [JsonProperty("iso", NullValueHandling = NullValueHandling.Ignore)]
+        public ISO Iso { get; set; }
 
         /// <summary>
         /// True if rescue mode is enabled. Server will then boot into rescue system on next reboot
