@@ -15,7 +15,8 @@ namespace HetznerCloudApi.Object.Image
         /// Type of the Image
         /// </summary>
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string Type { get; set; } = string.Empty;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public eImageType Type { get; set; } = eImageType.Unknown;
 
         /// <summary>
         /// Whether the Image can be used or if it's still being created or unavailable
@@ -100,5 +101,14 @@ namespace HetznerCloudApi.Object.Image
         Available,
         Creating,
         Unavailable,
+    }
+
+    public enum eImageType
+    {
+        Unknown,
+        Snapshot,
+        Backup,
+        System,
+        App,
     }
 }

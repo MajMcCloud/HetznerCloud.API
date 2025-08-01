@@ -59,7 +59,8 @@ namespace HetznerCloudApi.Object.ServerType
         /// Type of Server boot drive. Local has higher speed. Network has better availability.
         /// </summary>
         [JsonProperty("storage_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string StorageType { get; set; } = string.Empty;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))] 
+        public eStorageType StorageType { get; set; } = eStorageType.Unknown;
 
         /// <summary>
         /// Possible enum values:
@@ -67,7 +68,8 @@ namespace HetznerCloudApi.Object.ServerType
         /// Type of cpu
         /// </summary>
         [JsonProperty("cpu_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string CpuType { get; set; } = string.Empty;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public eCpuType CpuType { get; set; } = eCpuType.Unknown;
 
         /// <summary>
         /// Possible enum values:
@@ -75,7 +77,8 @@ namespace HetznerCloudApi.Object.ServerType
         /// Type of cpu architecture
         /// </summary>
         [JsonProperty("architecture", NullValueHandling = NullValueHandling.Ignore)]
-        public string Architecture { get; set; } = string.Empty;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public eArchitectureType Architecture { get; set; } = eArchitectureType.Unknown;
 
         /// <summary>
         /// Free traffic per month in bytes
@@ -133,5 +136,24 @@ namespace HetznerCloudApi.Object.ServerType
             [JsonProperty("gross", NullValueHandling = NullValueHandling.Ignore)]
             public string Gross { get; set; } = string.Empty;
         }
+    }
+
+    public enum eStorageType
+    {
+        Unknown,
+        Local,
+        Network
+    }
+    public enum eCpuType
+    {
+        Unknown,
+        Shared,
+        Dedicated
+    }
+    public enum  eArchitectureType
+    {
+        Unknown,
+        X86,
+        Arm
     }
 }

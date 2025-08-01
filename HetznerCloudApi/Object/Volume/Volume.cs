@@ -67,12 +67,19 @@ namespace HetznerCloudApi.Object.Volume
         /// Current status of the Volume
         /// </summary>
         [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public string Status { get; set; } = string.Empty;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public eVolumeStatus Status { get; set; } = eVolumeStatus.Unknown;
     }
 
     public enum VolumeFormat
     {
         ext4,
         xfs,
+    }
+    public enum eVolumeStatus
+    {
+        Unknown,
+        Creating,
+        Available,
     }
 }

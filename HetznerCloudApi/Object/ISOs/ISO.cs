@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HetznerCloudApi.Object.ServerType;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,7 +24,8 @@ namespace HetznerCloudApi.Object.ISOs
         public Deprecation deprecation { get; set; }
 
         [JsonProperty("architecture", NullValueHandling = NullValueHandling.Ignore)]
-        public string architecture { get; set; }
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public eArchitectureType architecture { get; set; }
     }
 
     public class Deprecation
