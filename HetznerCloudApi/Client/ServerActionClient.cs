@@ -54,7 +54,7 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="actionId">ID of the Action</param>
         /// <returns></returns>
-        public async Task<Action> Get(long actionId)
+        public async Task<Action> GetAction(long actionId)
         {
             // Get list
             string json = await Core.SendGetRequest(_token, $"/servers/actions/{actionId}");
@@ -104,7 +104,7 @@ namespace HetznerCloudApi.Client
         /// <param name="Id">ID of the Server</param>
         /// <param name="actionId">ID of the Action</param>
         /// <returns></returns>
-        public async Task<Action> Get(long Id, long actionId)
+        public async Task<Action> GetAction(long Id, long actionId)
         {
             // Get list
             string json = await Core.SendGetRequest(_token, $"/servers/{Id}/actions/{actionId}");
