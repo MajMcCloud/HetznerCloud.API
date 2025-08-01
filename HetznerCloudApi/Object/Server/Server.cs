@@ -1,7 +1,8 @@
 ﻿using HetznerCloudApi.Object.Universal;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 
 namespace HetznerCloudApi.Object.Server
 {
@@ -23,7 +24,8 @@ namespace HetznerCloudApi.Object.Server
         /// Status of the Server
         /// </summary>
         [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public string Status { get; set; } = string.Empty;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public eServerStatus Status { get; set; } = eServerStatus.Unknown;
 
         /// <summary>
         /// Point in time when the Resource was created

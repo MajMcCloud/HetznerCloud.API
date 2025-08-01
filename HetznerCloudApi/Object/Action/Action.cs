@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 
 namespace HetznerCloudApi.Object.Action
 {
@@ -13,7 +14,8 @@ namespace HetznerCloudApi.Object.Action
         public string Command { get; set; } = string.Empty;
 
         [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public string Status { get; set; } = string.Empty;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public eActionStatus Status { get; set; } = eActionStatus.Unknown;
 
         [JsonProperty("progress", NullValueHandling = NullValueHandling.Ignore)]
         public long Progress { get; set; } = 0;
