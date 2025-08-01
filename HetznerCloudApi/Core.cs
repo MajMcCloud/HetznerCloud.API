@@ -1,11 +1,12 @@
-﻿using System.Net.Http;
-using System.Net;
-using System.Threading.Tasks;
-using System;
+﻿using HetznerCloudApi.Object.Exceptions;
 using HetznerCloudApi.Object.Universal;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace HetznerCloudApi
 {
@@ -45,6 +46,10 @@ namespace HetznerCloudApi
                     {
                         // The error is due to the resource not being found. Let's make it return empty instead of an error.
                         json = "{}";
+                    }
+                    else if (error.Message.Contains("not found"))
+                    {
+                        throw new ResourceNotFoundException($"{error.Code} - {error.Message}"); 
                     }
                     else
                     {
@@ -110,6 +115,10 @@ namespace HetznerCloudApi
                         // The error is due to the resource not being found. Let's make it return empty instead of an error.
                         json = "{}";
                     }
+                    else if (error.Message.Contains("not found"))
+                    {
+                        throw new ResourceNotFoundException($"{error.Code} - {error.Message}");
+                    }
                     else
                     {
                         // If it's a genuine error
@@ -151,6 +160,10 @@ namespace HetznerCloudApi
                     {
                         // The error is due to the resource not being found. Let's make it return empty instead of an error.
                         json = "{}";
+                    }
+                    else if (error.Message.Contains("not found"))
+                    {
+                        throw new ResourceNotFoundException($"{error.Code} - {error.Message}");
                     }
                     else
                     {
@@ -195,6 +208,10 @@ namespace HetznerCloudApi
                     {
                         // The error is due to the resource not being found. Let's make it return empty instead of an error.
                         json = "{}";
+                    }
+                    else if (error.Message.Contains("not found"))
+                    {
+                        throw new ResourceNotFoundException($"{error.Code} - {error.Message}");
                     }
                     else
                     {
