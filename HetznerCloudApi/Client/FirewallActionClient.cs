@@ -37,6 +37,17 @@ namespace HetznerCloudApi.Client
         }
 
         /// <summary>
+        /// Apply to Resources
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> ApplyToResources(Firewall firewall, Object.Server.Server server)
+        {
+            return await ApplyToResources(firewall.Id, server.Id);
+        }
+
+        /// <summary>
         /// Removes one Firewall from multiple resources.
         /// </summary>
         /// <param name="firewallId"></param>
@@ -53,6 +64,17 @@ namespace HetznerCloudApi.Client
             // Return
             JObject result = JObject.Parse(jsonResponse);
             return JsonConvert.DeserializeObject<List<Action>>($"{result["actions"]}") ?? new List<Action>();
+        }
+
+        /// <summary>
+        /// Removes one Firewall from multiple resources.
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> RemoveFromResources(Firewall firewall, Object.Server.Server server)
+        {
+            return await RemoveFromResources(firewall.Id, server.Id);   
         }
 
         /// <summary>
