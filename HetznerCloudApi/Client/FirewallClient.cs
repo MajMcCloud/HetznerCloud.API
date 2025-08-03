@@ -20,7 +20,7 @@ namespace HetznerCloudApi.Client
         /// Returns all Firewall objects.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Firewall>> Get()
+        public async Task<List<Firewall>> Get(string name = null)
         {
             List<Firewall> list = new List<Firewall>();
             long page = 0;
@@ -30,7 +30,7 @@ namespace HetznerCloudApi.Client
                 page++;
 
                 // Get list
-                Response response = JsonConvert.DeserializeObject<Response>(await Core.SendGetRequest(_token, $"/firewalls?page={page}&per_page={Core.PerPage}")) ?? new Response();
+                Response response = JsonConvert.DeserializeObject<Response>(await Core.SendGetRequest(_token, $"/firewalls?page={page}&per_page={Core.PerPage}&name={name}")) ?? new Response();
 
                 // Run
                 foreach (Firewall row in response.Firewalls)
