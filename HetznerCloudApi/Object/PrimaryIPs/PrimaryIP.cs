@@ -1,5 +1,6 @@
 ﻿using HetznerCloudApi.Object.Universal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,13 +39,15 @@ namespace HetznerCloudApi.Object.PrimaryIPs
         public Protection Protection { get; set; }
 
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string Type { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ePrimaryIPType Type { get; set; }
 
         [JsonProperty("auto_delete", NullValueHandling = NullValueHandling.Ignore)]
         public bool Auto_Delete { get; set; }
 
         [JsonProperty("assignee_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string Assignee_Type { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ePrimaryIPAssigneeType Assignee_Type { get; set; }
 
         [JsonProperty("assignee_id", NullValueHandling = NullValueHandling.Ignore)]
         public int Assignee_Id { get; set; }
@@ -60,5 +63,16 @@ namespace HetznerCloudApi.Object.PrimaryIPs
 
         [JsonProperty("dns_ptr", NullValueHandling = NullValueHandling.Ignore)]
         public string Dns_Ptr { get; set; }
+    }
+
+    public enum ePrimaryIPType
+    {
+        ipv4,
+        ipv6
+    }
+
+    public enum ePrimaryIPAssigneeType
+    {
+        server,
     }
 }

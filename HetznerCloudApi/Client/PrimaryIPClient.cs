@@ -96,12 +96,12 @@ namespace HetznerCloudApi.Client
             return await Core.SendPostRequest<PrimaryIPCreatedResponse>(_token, $"/primary_ips", request);
         }
 
-        public async Task<PrimaryIPCreatedResponse> Create(Server server, string name = null, string type = "ipv4", bool auto_delete = true, Dictionary<string, string> labels = null)
+        public async Task<PrimaryIPCreatedResponse> Create(Server server, string name = null, ePrimaryIPType type = ePrimaryIPType.ipv4, bool auto_delete = true, Dictionary<string, string> labels = null)
         {
             var request = new PrimaryIPCreateRequest()
             {
                 AssigneeId = server.Id,
-                AssigneeType = "server",
+                AssigneeType = ePrimaryIPAssigneeType.server,
                 AutoDelete = auto_delete,
                 Name = name ?? server.Name,
                 Type = type,

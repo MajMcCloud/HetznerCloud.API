@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json.Converters;
 
 namespace HetznerCloudApi.Object.Network
 {
@@ -92,7 +93,8 @@ namespace HetznerCloudApi.Object.Network
         /// Type of Subnetwork
         /// </summary>
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string Type { get; set; } = string.Empty;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public eSubnetType Type { get; set; } = eSubnetType.unknown;
 
         /// <summary>
         /// Range to allocate IPs from. Must be a Subnet of the ip_range of the parent network object and must not overlap with any other subnets or with any destinations in routes. Minimum Network size is /30. We suggest that you pick a bigger Network with a /24 netmask.
@@ -114,5 +116,23 @@ namespace HetznerCloudApi.Object.Network
         /// </summary>
         [JsonProperty("gateway", NullValueHandling = NullValueHandling.Ignore)]
         public string Gateway { get; set; } = string.Empty;
+    }
+
+    public enum eSubnetType
+    {
+        unknown = -1,
+        /// <summary>
+        /// Used to connect cloud Servers and Load Balancers
+        /// </summary>
+        cloud,
+        /// <summary>
+        /// Same as the cloud type. Deprecated, use the cloud type instead.
+        /// </summary>
+        server,
+        /// <summary>
+        /// Used to connect cloud Servers and Load Balancers with dedicated Servers.
+        /// </summary>
+        vswitch,
+
     }
 }

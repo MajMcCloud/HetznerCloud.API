@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,13 +15,15 @@ namespace HetznerCloudApi.Object.PrimaryIPs
         public Dictionary<string, string> Labels { get; set; }
 
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string Type { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ePrimaryIPType Type { get; set; }
 
         [JsonProperty("datacenter", NullValueHandling = NullValueHandling.Ignore)]
         public string Datacenter { get; set; }
 
         [JsonProperty("assignee_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string AssigneeType { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ePrimaryIPAssigneeType AssigneeType { get; set; }
 
         [JsonProperty("assignee_id", NullValueHandling = NullValueHandling.Ignore)]
         public long AssigneeId { get; set; }
