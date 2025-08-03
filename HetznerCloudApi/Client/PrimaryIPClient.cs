@@ -2,6 +2,7 @@
 using HetznerCloudApi.Object.Datacenter;
 using HetznerCloudApi.Object.PrimaryIPs;
 using HetznerCloudApi.Object.PrimaryIPs.Get;
+using HetznerCloudApi.Object.Server;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -91,6 +92,21 @@ namespace HetznerCloudApi.Client
                 throw new InvalidOperationException("Please choose Datacenter OR AssigneeId as parameter.");
             }
 
+
+            return await Core.SendPostRequest<PrimaryIPCreatedResponse>(_token, $"/primary_ips", request);
+        }
+
+        public async Task<PrimaryIPCreatedResponse> Create(Server server, string name = null, string type = "ipv4", bool auto_delete = true, Dictionary<string, string> labels = null)
+        {
+            var request = new PrimaryIPCreateRequest()
+            {
+                AssigneeId = server.Id,
+                AssigneeType = "server",
+                AutoDelete = auto_delete,
+                Name = name ?? server.Name,
+                Type = type,
+                Labels = labels
+            };
 
             return await Core.SendPostRequest<PrimaryIPCreatedResponse>(_token, $"/primary_ips", request);
         }
