@@ -127,7 +127,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> PowerOn(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/poweron");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/poweron")).Action;
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> PowerOff(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/poweroff");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/poweroff")).Action;
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> SoftReboot(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/reboot");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/reboot")).Action;
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> Reset(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/reset");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/reset")).Action;
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> Shutdown(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/shutdown");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/shutdown")).Action;
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace HetznerCloudApi.Client
                 Server_Type = Server_Type
             };
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/change_type", request);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/change_type", request)).Action;
         }
 
 
@@ -214,7 +214,7 @@ namespace HetznerCloudApi.Client
             };
 
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/change_type", request);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/change_type", request)).Action;
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace HetznerCloudApi.Client
                 Alias_IPs = alias_ips
             };
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/attach_to_network", request);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/attach_to_network", request)).Action;
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace HetznerCloudApi.Client
                 Network = network,
             };
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/detach_from_network", request);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/detach_from_network", request)).Action;
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> EnableBackup(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/enable_backup");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/enable_backup")).Action;
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> DisableBackup(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/disable_backup");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/disable_backup")).Action;
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> EnableRescueMode(long id, string type)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/enable_rescue");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/enable_rescue")).Action;
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> DisableRescueMode(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/disable_rescue");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/disable_rescue")).Action;
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace HetznerCloudApi.Client
             // Preparing raw
             string raw = $"{{ \"placement_group\": {id} }}";
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/add_to_placement_group", raw);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/add_to_placement_group", raw)).Action;
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> RemoveFromPlacementGroup(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/remove_from_placement_group");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/remove_from_placement_group")).Action;
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace HetznerCloudApi.Client
             // Preparing raw
             string raw = $"{{ \"iso\": \"{iso}\" }}";
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/attach_iso", raw);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/attach_iso", raw)).Action;
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> DetachISO(long id)
         {
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/detach_iso");
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/detach_iso")).Action;
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace HetznerCloudApi.Client
                 Network = network,
                 Alias_IPs = alias_ips
             };
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/change_alias_ips", request);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/change_alias_ips", request)).Action;
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace HetznerCloudApi.Client
                 DNS_Ptr = dns_ptr
             };
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/change_dns_ptr", request);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/change_dns_ptr", request)).Action;
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace HetznerCloudApi.Client
                 Labels = labels
             };
 
-            return await Core.SendPostRequest<Action>(_token, $"/servers/{id}/actions/create_image", request);
+            return (await Core.SendPostRequest<SimpleActionResponse>(_token, $"/servers/{id}/actions/create_image", request)).Action;
         }
 
         /// <summary>
