@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace HetznerCloudApi.Object.ServerType
 {
+    [DebuggerDisplay("#{Id}: {Description}, {CpuType}, {Cores}, {Memory} GB RAM")]
     public class ServerType
     {
         /// <summary>
