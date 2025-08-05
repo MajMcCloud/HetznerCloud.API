@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 namespace HetznerCloudApi.Object.Action
 {
+    [DebuggerDisplay("{Command}: {Status}")]
     public partial class Action
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
