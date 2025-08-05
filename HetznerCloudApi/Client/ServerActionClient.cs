@@ -59,15 +59,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> GetAction(long actionId)
         {
-            // Get list
-            string json = await Core.SendGetRequest(_token, $"/servers/actions/{actionId}");
-
-            // Set
-            JObject result = JObject.Parse(json);
-            Action action = JsonConvert.DeserializeObject<Action>($"{result["action"]}") ?? new Action();
-
-            // Return
-            return action;
+            return (await Core.SendGetRequest<SimpleActionResponse>(_token, $"/servers/actions/{actionId}")).Action;
         }
 
         /// <summary>
@@ -109,15 +101,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Action> GetAction(long Id, long actionId)
         {
-            // Get list
-            string json = await Core.SendGetRequest(_token, $"/servers/{Id}/actions/{actionId}");
-
-            // Set
-            JObject result = JObject.Parse(json);
-            Action action = JsonConvert.DeserializeObject<Action>($"{result["action"]}") ?? new Action();
-
-            // Return
-            return action;
+            return (await Core.SendGetRequest<SimpleActionResponse>(_token, $"/servers/{Id}/actions/{actionId}")).Action;
         }
 
         /// <summary>
