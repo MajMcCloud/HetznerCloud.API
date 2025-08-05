@@ -1,12 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace HetznerCloudApi.Object.ServerType
 {
     [DebuggerDisplay("#{Id}: {Description}, {CpuType}, {Cores}, {Memory} GB RAM")]
     public class ServerType
     {
+        public static CultureInfo Culture = new CultureInfo("en-US");
+
         /// <summary>
         /// ID of the Server type
         /// </summary>
@@ -122,6 +125,21 @@ namespace HetznerCloudApi.Object.ServerType
             /// </summary>
             [JsonProperty("gross", NullValueHandling = NullValueHandling.Ignore)]
             public string Gross { get; set; } = string.Empty;
+
+            public decimal NetDecimal
+            {
+                get
+                {
+                    return decimal.TryParse(Net, NumberStyles.Number, ServerType.Culture, out var value) ? value : 0;
+                }
+            }
+            public decimal GrossDecimal
+            {
+                get
+                {
+                    return decimal.TryParse(Gross, NumberStyles.Number, ServerType.Culture, out var value) ? value : 0;
+                }
+            }
         }
 
         public class PriceMonthly
@@ -137,6 +155,21 @@ namespace HetznerCloudApi.Object.ServerType
             /// </summary>
             [JsonProperty("gross", NullValueHandling = NullValueHandling.Ignore)]
             public string Gross { get; set; } = string.Empty;
+
+            public decimal NetDecimal
+            {
+                get
+                {
+                    return decimal.TryParse(Net, NumberStyles.Number, ServerType.Culture, out var value) ? value : 0;
+                }
+            }
+            public decimal GrossDecimal
+            {
+                get
+                {
+                    return decimal.TryParse(Gross, NumberStyles.Number, ServerType.Culture, out var value) ? value : 0;
+                }
+            }
         }
     }
 
