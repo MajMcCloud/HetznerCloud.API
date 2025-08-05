@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace HetznerCloudApi.Object.Action
 {
@@ -42,7 +43,7 @@ namespace HetznerCloudApi.Object.Action
         public string Type { get; set; } = string.Empty;
     }
 
-
+    [DebuggerDisplay("{Action.Command}: {Action.Status}")]
     public class SimpleActionResponse
     {
         [JsonProperty("action", NullValueHandling = NullValueHandling.Ignore)]
