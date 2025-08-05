@@ -62,6 +62,14 @@ namespace HetznerCloudApi
             return json;
         }
 
+        public static async Task<T> SendGetRequest<T>(string token, string url)
+            where T: class
+        {
+            var jsonResponse = await SendGetRequest(token, url);
+            return JsonConvert.DeserializeObject<T>(jsonResponse) ?? default(T);
+        }
+
+
         public static async Task<T> SendPostRequest<T>(string token, string url)
             where T : class
         {
