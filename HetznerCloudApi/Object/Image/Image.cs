@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace HetznerCloudApi.Object.Image
 {
+    [DebuggerDisplay("{Description,nq} ({Architecture,nq}) [{OsFlavor,nq}]")]
     public class Image
     {
         /// <summary>
