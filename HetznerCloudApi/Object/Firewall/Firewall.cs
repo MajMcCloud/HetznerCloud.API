@@ -81,6 +81,11 @@ namespace HetznerCloudApi.Object.Firewall
         /// </summary>
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; } = string.Empty;
+
+        public override string ToString()
+        {
+            return $"{Direction} {Protocol.ToString().ToUpper()} {Port} {Description}";
+        }
     }
 
     public class AppliedTo

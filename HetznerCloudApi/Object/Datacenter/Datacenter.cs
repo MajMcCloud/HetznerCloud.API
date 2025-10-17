@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace HetznerCloudApi.Object.Datacenter
 {
+    [DebuggerDisplay("Datacenter: {Description} ({Name}/{Id})")]
     public class Datacenter
     {
         /// <summary>
