@@ -84,7 +84,7 @@ namespace HetznerCloudApi.Object.Firewall
 
         public override string ToString()
         {
-            return $"{Direction} {Protocol.ToString().ToUpper()} {Port} {Description}";
+            return $"{Direction} {Protocol.ToString().ToUpper()} {Port} #{Description}";
         }
     }
 
