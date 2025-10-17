@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System;
+﻿using HetznerCloudApi.Converter;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace HetznerCloudApi.Object.Firewall
 {
@@ -59,7 +61,8 @@ namespace HetznerCloudApi.Object.Firewall
         /// Port or port range to which traffic will be allowed, only applicable for protocols TCP and UDP. A port range can be specified by separating two ports with a dash, e.g 1024-5000.
         /// </summary>
         [JsonProperty("port", NullValueHandling = NullValueHandling.Ignore)]
-        public string Port { get; set; } = string.Empty;
+        [JsonConverter(typeof(StringPortConverter))]
+        public PortRange Port { get; set; }
 
         /// <summary>
         /// List of permitted IPv4/IPv6 addresses in CIDR notation. Use 0.0.0.0/0 to allow all IPv4 addresses and ::/0 to allow all IPv6 addresses. You can specify 100 CIDRs at most.
@@ -99,6 +102,69 @@ namespace HetznerCloudApi.Object.Firewall
         /// </summary>
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long Id { get; set; } = 0;
+    }
+
+
+    [DebuggerDisplay("Port {ToString(),nq}")]
+    public class PortRange : IComparable<PortRange>
+    {
+               /// <summary>
+        /// Starting port of the range
+        /// </summary>
+        [JsonProperty("from", NullValueHandling = NullValueHandling.Ignore)]
+        public long From { get; set; } = 0;
+        /// <summary>
+        /// Ending port of the range
+        /// </summary>
+        [JsonProperty("to", NullValueHandling = NullValueHandling.Ignore)]
+        public long To { get; set; } = 0;
+
+        public static PortRange FromPort(long port)
+        {
+            return new PortRange { From = port, To = port };
+        }
+
+        public static implicit operator PortRange(long port)
+        {
+            return new PortRange { From = port, To = port };
+        }
+
+        public static implicit operator PortRange((long from, long to) range)
+        {
+            return new PortRange { From = range.from, To = range.to };
+        }
+
+        public static implicit operator string(PortRange pr)
+        {
+            if (pr.From == pr.To)
+            {
+                return pr.From.ToString();
+            }
+            else
+            {
+                return $"{pr.From}-{pr.To}";
+            }
+        }
+
+        public override string ToString()
+        {
+            if(From == To)
+            {
+                return From.ToString();
+            }
+            
+            return $"{From}-{To}";
+        }
+
+        public int CompareTo(PortRange other)
+        {
+            if (other == null) return 1;
+            if (this.From != other.From)
+            {
+                return this.From.CompareTo(other.From);
+            }
+            return this.To.CompareTo(other.To);
+        }
     }
 
     public enum Direction
