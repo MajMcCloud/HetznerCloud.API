@@ -151,13 +151,23 @@ namespace HetznerCloudApi.Object.Firewall
             }
         }
 
+        public static implicit operator long (PortRange pr)
+        {
+            if (pr.From != pr.To)
+            {
+                return long.MinValue;
+            }
+
+            return pr.From;
+        }
+
         public override string ToString()
         {
-            if(From == To)
+            if (From == To)
             {
                 return From.ToString();
             }
-            
+
             return $"{From}-{To}";
         }
 
