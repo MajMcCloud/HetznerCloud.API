@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using HetznerCloudApi.Object.Action;
 using HetznerCloudApi.Object.Firewall;
 using HetznerCloudApi.Object.Firewall.Get;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HetznerCloudApi.Client
 {
@@ -26,7 +27,7 @@ namespace HetznerCloudApi.Client
             long page = 0;
             while (true)
             {
-                // Nex
+                // Next
                 page++;
 
                 // Get list
@@ -54,15 +55,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Firewall> Get(long id)
         {
-            // Get list
-            string json = await Core.SendGetRequest(_token, $"/firewalls/{id}");
-
-            // Set
-            JObject result = JObject.Parse(json);
-            Firewall firewall = JsonConvert.DeserializeObject<Firewall>($"{result["firewall"]}") ?? new Firewall();
-
-            // Return
-            return firewall;
+            return (await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{id}")).Response;
         }
 
         /// <summary>
@@ -72,16 +65,19 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Firewall> Create(string name)
         {
-            // Preparing raw
-            string raw = $"{{ \"name\": \"{name}\" }}";
-
-            // Send post
-            string jsonResponse = await Core.SendPostRequest(_token, "/firewalls", raw);
-
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<Firewall>($"{result["firewall"]}") ?? new Firewall();
+            return await Create(new Firewall { Name = name });
         }
+
+        /// <summary>
+        /// Creates a new Firewall.
+        /// </summary>
+        /// <param name="name">Name of the Firewall</param>
+        /// <returns></returns>
+        public async Task<Firewall> Create(Firewall new_firewall)
+        {
+            return (await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, "/firewalls", new_firewall)).Response;
+        }
+
 
         /// <summary>
         /// Updates the Firewall.
@@ -90,15 +86,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Firewall> Update(Firewall firewall)
         {
-            // Preparing raw
-            string raw = $"{{\"name\":\"{firewall.Name}\"}}";
-
-            // Send update
-            string jsonResponse = await Core.SendPutRequest(_token, $"/firewalls/{firewall.Id}", raw);
-
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<Firewall>($"{result["firewall"]}") ?? new Firewall();
+            return (await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{firewall.Id}", firewall)).Response;
         }
 
         /// <summary>

@@ -88,6 +88,7 @@ namespace HetznerCloudApi.Object.Firewall
         }
     }
 
+    [DebuggerDisplay("AppliedTo {ToString(),nq}")]
     public class AppliedTo
     {
         /// <summary>
@@ -98,6 +99,10 @@ namespace HetznerCloudApi.Object.Firewall
 
         [JsonProperty("server", NullValueHandling = NullValueHandling.Ignore)]
         public Server Server { get; set; } = new Server();
+        public override string ToString()
+        {
+            return $"{Type} {Server.Id}";
+        }
     }
 
     public class Server
