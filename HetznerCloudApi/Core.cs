@@ -240,7 +240,7 @@ namespace HetznerCloudApi
             return json;
         }
 
-        public static async Task SendDeleteRequest(string token, string url)
+        public static async Task<string> SendDeleteRequest(string token, string url)
         {
             HttpResponseMessage httpResponseMessage;
             using (var httpClient = new HttpClient())
@@ -266,6 +266,16 @@ namespace HetznerCloudApi
                     Error error = JsonConvert.DeserializeObject<Error>($"{result["error"]}") ?? new Error();
                     throw new Exception($"{error.Code} - {error.Message}");
             }
+
+            return json;
+        }
+
+        public static async Task<T> SendDeleteRequest<T>(string token, string url)
+            where T : class
+        {
+            var jsonResponse = await SendDeleteRequest(token, url);
+
+            return JsonConvert.DeserializeObject<T>(jsonResponse) ?? default(T);
         }
     }
 }
