@@ -6,6 +6,7 @@ using HetznerCloudApi.Object.Server;
 using HetznerCloudApi.Object.Server.Get;
 using HetznerCloudApi.Object.Universal;
 using HetznerCloudApi.Object.Network;
+using HetznerCloudApi.Object.Action;
 
 namespace HetznerCloudApi.Client
 {
@@ -168,7 +169,7 @@ namespace HetznerCloudApi.Client
         /// <param name="serverType">ID or name of the Server type this Server should be created with</param>
         /// <param name="ipv4">Attach an IPv4 on the public NIC. If false, no IPv4 address will be attached. Defaults to true.</param>
         /// <param name="ipv6">Attach an IPv6 on the public NIC. If false, no IPv6 address will be attached. Defaults to true.</param>
-        /// <param name="privateNetoworksIds">Network IDs which should be attached to the Server private network interface at the creation time</param>
+        /// <param name="privateNetworkIds">Network IDs which should be attached to the Server private network interface at the creation time</param>
         /// <param name="sshKeysIds">SSH key IDs which should be injected into the Server at creation time</param>
         /// <param name="volumesIds">Volume IDs which should be attached to the Server at the creation time. Volumes must be in the same Location.</param>
         /// <param name="placementGroupId">ID of the Placement Group the server should be in</param>
@@ -181,7 +182,7 @@ namespace HetznerCloudApi.Client
             long serverType,
             bool ipv4 = true,
             bool ipv6 = true,
-            List<long> privateNetoworksIds = default,
+            List<long> privateNetworkIds = default,
             List<long> sshKeysIds = default,
             List<long> volumesIds = default,
             long placementGroupId = 0,
@@ -199,7 +200,7 @@ namespace HetznerCloudApi.Client
                     EnableIpv4 = ipv4,
                     EnableIpv6 = ipv6
                 },
-                Networks = privateNetoworksIds,
+                Networks = privateNetworkIds,
                 SshKeys = sshKeysIds,
                 UserData = userData
             };
@@ -224,15 +225,14 @@ namespace HetznerCloudApi.Client
                 post.PlacementGroup = null;
             }
 
-            // Preparing raw
-            string raw = JsonConvert.SerializeObject(post, Formatting.Indented);
-
             // Send post
-            string jsonResponse = await Core.SendPostRequest(_token, "/servers", raw);
+            var bucket = await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Server>>(_token, "/servers", post);
 
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<Server>($"{result["server"]}") ?? new Server();
+            var server = bucket.Response;
+
+            server.RootPassword = bucket.GetObject<string>("root_password");
+
+            return server;
         }
 
         /// <summary>

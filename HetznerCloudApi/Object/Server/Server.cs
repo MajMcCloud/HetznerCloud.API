@@ -133,6 +133,13 @@ namespace HetznerCloudApi.Object.Server
         /// </summary>
         [JsonProperty("placement_group", NullValueHandling = NullValueHandling.Ignore)]
         public PlacementGroup.PlacementGroup PlacementGroup { get; set; } = new PlacementGroup.PlacementGroup();
+
+
+        /// <summary>
+        /// Contains the root password of the server. Only returned when the server is created.
+        /// </summary>
+        [JsonProperty("root_password", NullValueHandling = NullValueHandling.Ignore)]
+        public string RootPassword { get; set; } = string.Empty;
     }
 
     public class Ipv4
