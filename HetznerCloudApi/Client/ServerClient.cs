@@ -258,9 +258,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task Delete(long id)
+        public async Task<Object.Action.Action> Delete(long id)
         {
-            await Core.SendDeleteRequest(_token, $"/servers/{id}");
+            return (await Core.SendDeleteRequest<SimpleActionResponse>(_token, $"/servers/{id}")).Action;
         }
 
         /// <summary>
@@ -268,9 +268,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="server"></param>
         /// <returns></returns>
-        public async Task Delete(Server server)
+        public async Task<Action> Delete(Server server)
         {
-            await Delete(server.Id);
+            return await Delete(server.Id);
         }
 
         /// <summary>
