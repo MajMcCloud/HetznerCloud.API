@@ -57,9 +57,9 @@ sshKey.Name = $"new-name-{Guid.NewGuid()}";
 sshKey = await hetznerCloudClient.SshKey.Update(sshKey);
 ```
 
-## Delete a Volume
+## Delete an SSH Key
 
-Deletes a volume. All Volume data is irreversibly destroyed. The Volume must not be attached to a Server and it must not have delete protection enabled.
+Deletes a ssh key. 
 
 ```csharp
 HetznerCloudClient hetznerCloudClient = new HetznerCloudClient("ApiKey");
