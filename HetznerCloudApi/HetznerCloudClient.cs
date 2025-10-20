@@ -22,6 +22,7 @@ namespace HetznerCloudApi
             NetworkAction = new NetworkActionClient(token);
             Network = new NetworkClient(token);
             PrimaryIP = new PrimaryIPClient(token);
+            PrimaryIPAction = new PrimaryIPActionClient(token);
             Server = new ServerClient(token);
             ServerAction = new ServerActionClient(token);
             ServerType = new ServerTypeClient(token);
@@ -40,6 +41,7 @@ namespace HetznerCloudApi
         public NetworkClient Network { get; private set; }
         public NetworkActionClient NetworkAction { get; private set; }
         public PrimaryIPClient PrimaryIP { get; private set; }
+        public PrimaryIPActionClient PrimaryIPAction { get; private set; }
         public ServerClient Server { get; private set; }
         public ServerActionClient ServerAction { get; private set; }
         public ServerTypeClient ServerType { get; private set; }
