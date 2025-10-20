@@ -175,10 +175,10 @@ namespace HetznerCloudApi.Object.Server
     public class PublicNet
     {
         [JsonProperty("ipv4", NullValueHandling = NullValueHandling.Ignore)]
-        public Ipv4 Ipv4 { get; set; } = new Ipv4();
+        public Ipv4 Ipv4 { get; set; }
 
         [JsonProperty("ipv6", NullValueHandling = NullValueHandling.Ignore)]
-        public Ipv6 Ipv6 { get; set; } = new Ipv6();
+        public Ipv6 Ipv6 { get; set; }
 
         [JsonProperty("floating_ips", NullValueHandling = NullValueHandling.Ignore)]
         public List<long> FloatingIps { get; set; } = new List<long>();
