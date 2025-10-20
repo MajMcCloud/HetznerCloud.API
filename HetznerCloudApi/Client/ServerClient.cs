@@ -113,7 +113,7 @@ namespace HetznerCloudApi.Client
                     break;
             }
 
-            Post post = new Post
+            CreateServerRequest post = new CreateServerRequest
             {
                 Datacenter = datacenterId,
                 Image = imageId,
@@ -175,7 +175,7 @@ namespace HetznerCloudApi.Client
         /// <param name="placementGroupId">ID of the Placement Group the server should be in</param>
         /// <param name="userData">Cloud-Init user data to use during Server creation. This field is limited to 32KiB.</param>
         /// <returns></returns>
-        public async Task<Server> Create(
+        public async Task<(Action, Server)> Create(
             long datacenterId,
             long imageId,
             string name,
@@ -189,7 +189,7 @@ namespace HetznerCloudApi.Client
             string userData = "")
         {
 
-            Post post = new Post
+            CreateServerRequest post = new CreateServerRequest
             {
                 Datacenter = datacenterId,
                 Image = imageId,
@@ -198,7 +198,7 @@ namespace HetznerCloudApi.Client
                 PublicNet = new PublicNet
                 {
                     EnableIpv4 = ipv4,
-                    EnableIpv6 = ipv6
+                    EnableIpv6 = ipv6,
                 },
                 Networks = privateNetworkIds,
                 SshKeys = sshKeysIds,
@@ -225,6 +225,11 @@ namespace HetznerCloudApi.Client
                 post.PlacementGroup = null;
             }
 
+            return await Create(post);
+        }
+
+        public async Task<(Action, Server)> Create(CreateServerRequest post)
+        {
             // Send post
             var bucket = await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Server>>(_token, "/servers", post);
 
@@ -232,25 +237,24 @@ namespace HetznerCloudApi.Client
 
             server.RootPassword = bucket.GetObject<string>("root_password");
 
-            return server;
+            return (bucket.Action, server);
         }
+
+
+
+
+
 
         /// <summary>
         /// Updates a Server. You can update a Server’s name.
         /// </summary>
         /// <param name="server"></param>
         /// <returns></returns>
-        public async Task<Server> Update(Server server)
+        public async Task<(Action, Server)> Update(Server server)
         {
-            // Preparing raw
-            string raw = $"{{ \"name\": \"{server.Name}\" }}";
+            var response = await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Server>>(_token, $"/servers/{server.Id}", server);
 
-            // Send post
-            string jsonResponse = await Core.SendPutRequest(_token, $"/servers/{server.Id}", raw);
-
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<Server>($"{result["server"]}") ?? new Server();
+            return (response.Action, response.Response);
         }
 
         /// <summary>
@@ -276,7 +280,7 @@ namespace HetznerCloudApi.Client
         /// <summary>
         /// Class used to create the server
         /// </summary>
-        private class Post
+        public class CreateServerRequest
         {
             [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
             public string Name { get; set; }
@@ -315,13 +319,20 @@ namespace HetznerCloudApi.Client
             public long? PlacementGroup { get; set; }
         }
 
-        private class PublicNet
+        public class PublicNet
         {
             [JsonProperty("enable_ipv4", NullValueHandling = NullValueHandling.Ignore)]
             public bool EnableIpv4 { get; set; }
 
             [JsonProperty("enable_ipv6", NullValueHandling = NullValueHandling.Ignore)]
             public bool EnableIpv6 { get; set; }
+
+
+            [JsonProperty("ipv4", NullValueHandling = NullValueHandling.Ignore)]
+            public int? IPv4 { get; set; }
+
+            [JsonProperty("ipv6", NullValueHandling = NullValueHandling.Ignore)]
+            public int? IPv6 { get; set; }
         }
     }
 }
