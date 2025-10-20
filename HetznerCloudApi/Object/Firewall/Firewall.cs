@@ -98,20 +98,30 @@ namespace HetznerCloudApi.Object.Firewall
         public string Type { get; set; } = string.Empty;
 
         [JsonProperty("server", NullValueHandling = NullValueHandling.Ignore)]
-        public Server Server { get; set; } = new Server();
+        public Object.Server.Server Server { get; set; } = new Object.Server.Server();
+
+        public static AppliedTo FromServer(Object.Server.Server server)
+        {
+            return new AppliedTo
+            {
+                Type = "server",
+                Server = server
+            };
+        }
+
+        public static AppliedTo FromServerId(long serverId)
+        {
+            return new AppliedTo
+            {
+                Type = "server",
+                Server = new Object.Server.Server() { Id = serverId }
+            };
+        }
+
         public override string ToString()
         {
             return $"{Type} {Server.Id}";
         }
-    }
-
-    public class Server
-    {
-        /// <summary>
-        /// ID of the Resource
-        /// </summary>
-        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
-        public long Id { get; set; } = 0;
     }
 
 

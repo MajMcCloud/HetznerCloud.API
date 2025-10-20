@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HetznerCloudApi.Object.Action;
+﻿using HetznerCloudApi.Object.Action;
 using HetznerCloudApi.Object.Action.Get;
 using HetznerCloudApi.Object.Firewall;
+using HetznerCloudApi.Object.Server;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HetznerCloudApi.Client
 {
@@ -18,33 +20,91 @@ namespace HetznerCloudApi.Client
         }
 
         /// <summary>
-        /// Apply to Resources
+        /// Apply to a single server by id
         /// </summary>
         /// <param name="firewallId"></param>
         /// <param name="serverId"></param>
         /// <returns></returns>
         public async Task<List<Action>> ApplyToResources(long firewallId, long serverId)
         {
-            // Preparing raw
-            string raw = $"{{ \"apply_to\": [ {{ \"server\": {{ \"id\": {serverId} }}, \"type\": \"server\" }} ] }}";
+            return await ApplyToResources(firewallId, new List<AppliedTo>() { AppliedTo.FromServerId(serverId) });
+        }
 
-            // Send update
-            string jsonResponse = await Core.SendPostRequest(_token, $"/firewalls/{firewallId}/actions/apply_to_resources", raw);
+        /// <summary>
+        /// Apply to a single server by id
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> ApplyToServer(Firewall firewall, long serverId)
+        {
+            return await ApplyToResources(firewall.Id, serverId);
+        }
 
-            // Return
-             JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<List<Action>>($"{result["actions"]}") ?? new List<Action>();
+        /// <summary>
+        /// Apply to a single server
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> ApplyToServer(Firewall firewall, Object.Server.Server server)
+        {
+            return await ApplyToResources(firewall.Id, server.Id);
+        }
+
+
+        /// <summary>
+        /// Apply to multiple servers   
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> ApplyToServers(Firewall firewall, IEnumerable<Object.Server.Server> servers)
+        {
+            return await ApplyToResources(firewall.Id, servers.Select(a => AppliedTo.FromServer(a)));
+        }
+
+        /// <summary>
+        /// Apply to multiple servers by id
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> ApplyToServers(Firewall firewall, IEnumerable<long> serverIds)
+        {
+            return await ApplyToResources(firewall.Id, serverIds.Select(a => AppliedTo.FromServerId(a)));
         }
 
         /// <summary>
         /// Apply to Resources
         /// </summary>
-        /// <param name="firewall"></param>
-        /// <param name="server"></param>
+        /// <param name="firewallId"></param>
+        /// <param name="appliedTo"
         /// <returns></returns>
-        public async Task<List<Action>> ApplyToResources(Firewall firewall, Object.Server.Server server)
+        public async Task<List<Action>> ApplyToResources(Firewall firewall, IEnumerable<AppliedTo> appliedTo)
         {
-            return await ApplyToResources(firewall.Id, server.Id);
+            return await ApplyToResources(firewall.Id, appliedTo);
+        }
+
+
+        /// <summary>
+        /// Apply to Resources
+        /// </summary>
+        /// <param name="firewallId"></param>
+        /// <param name="appliedTo"
+        /// <returns></returns>
+        public async Task<List<Action>> ApplyToResources(long firewallId, IEnumerable<AppliedTo> appliedTo)
+        {
+            // Preparing raw
+            var temp = new
+            {
+                apply_to = appliedTo
+            };
+
+            // Send update
+            var jsonResponse = await Core.SendPostRequest<ResponseBucket<string>>(_token, $"/firewalls/{firewallId}/actions/apply_to_resources", temp);
+
+            return jsonResponse.Actions;
         }
 
         /// <summary>
@@ -55,15 +115,28 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<List<Action>> RemoveFromResources(long firewallId, long serverId)
         {
+            return await RemoveFromResources(firewallId, new List<AppliedTo>() { AppliedTo.FromServerId(serverId) });
+        }
+
+        /// <summary>
+        /// Removes one Firewall from multiple resources.
+        /// </summary>
+        /// <param name="firewallId"></param>
+        /// <param name="serverId"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> RemoveFromResources(long firewallId, IEnumerable<AppliedTo> removeFrom)
+        {
             // Preparing raw
-            string raw = $"{{ \"remove_from\": [ {{ \"server\": {{ \"id\": {serverId} }}, \"type\": \"server\" }} ] }}";
+            var temp = new
+            {
+                remove_from = removeFrom
+            };
 
             // Send update
-            string jsonResponse = await Core.SendPostRequest(_token, $"/firewalls/{firewallId}/actions/remove_from_resources", raw);
+            var jsonResponse = await Core.SendPostRequest<ResponseBucket<string>>(_token, $"/firewalls/{firewallId}/actions/remove_from_resources", temp);
 
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<List<Action>>($"{result["actions"]}") ?? new List<Action>();
+            return jsonResponse.Actions;
+
         }
 
         /// <summary>
@@ -74,7 +147,29 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<List<Action>> RemoveFromResources(Firewall firewall, Object.Server.Server server)
         {
-            return await RemoveFromResources(firewall.Id, server.Id);   
+            return await RemoveFromResources(firewall.Id, new List<AppliedTo>() { AppliedTo.FromServerId(server.Id) });
+        }
+
+        /// <summary>
+        /// Remove from multiple servers   
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> RemoveFromResources(Firewall firewall, IEnumerable<Object.Server.Server> servers)
+        {
+            return await RemoveFromResources(firewall.Id, servers.Select(a => AppliedTo.FromServer(a)));
+        }
+
+        /// <summary>
+        /// Remove from multiple servers by id
+        /// </summary>
+        /// <param name="firewall"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public async Task<List<Action>> RemoveFromResources(Firewall firewall, IEnumerable<long> serverIds)
+        {
+            return await RemoveFromResources(firewall.Id, serverIds.Select(a => AppliedTo.FromServerId(a)));
         }
 
         /// <summary>
