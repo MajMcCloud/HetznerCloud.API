@@ -26,7 +26,7 @@ namespace HetznerCloudApi.Object.PrimaryIPs
         public ePrimaryIPAssigneeType AssigneeType { get; set; }
 
         [JsonProperty("assignee_id", NullValueHandling = NullValueHandling.Ignore)]
-        public long AssigneeId { get; set; }
+        public long? AssigneeId { get; set; }
 
         [JsonProperty("auto_delete", NullValueHandling = NullValueHandling.Ignore)]
         public bool AutoDelete { get; set; }
