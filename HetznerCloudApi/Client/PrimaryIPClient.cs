@@ -118,9 +118,11 @@ namespace HetznerCloudApi.Client
         /// <param name="id">ID of the Primary IP.</param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<PrimaryIP> Update(long id, PrimaryIPCreateRequest request)
+        public async Task<(Object.Action.Action, PrimaryIP)> Update(long id, PrimaryIPCreateRequest request)
         {
-            return await Core.SendPutRequest<PrimaryIP>(_token, $"/primary_ips/{id}", request);
+            var response = await Core.SendPutRequest<Object.Action.Get.ResponseBucket<PrimaryIP>>(_token, $"/primary_ips/{id}", request);
+            
+            return (response.Action, response.Response);    
         }
 
         /// <summary>
