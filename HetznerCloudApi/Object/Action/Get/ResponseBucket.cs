@@ -6,6 +6,20 @@ using System.Text;
 
 namespace HetznerCloudApi.Object.Action.Get
 {
+    /// <summary>
+    /// Container for a response of type <typeparamref name="T"/> along with associated actions and objects.
+    /// </summary>
+    /// <remarks>
+    /// This class supports the following implicit conversions:
+    /// <list type="bullet">
+    /// <item><description><c>T value = responseBucket;</c> – Returns the response object.</description></item>
+    /// <item><description><c>Action action = responseBucket;</c> – Returns the action object.</description></item>
+    /// <item><description><c>List&lt;Action&gt; actions = responseBucket;</c> – Returns the list of actions.</description></item>
+    /// <item><description><c>(Action action, T response) = responseBucket;</c> – Returns a tuple of action and response.</description></item>
+    /// <item><description><c>Dictionary&lt;string, JToken&gt; dict = responseBucket;</c> – Returns the object dictionary.</description></item>
+    /// </list>
+    /// </remarks>
+    /// <typeparam name="T">The type of the primary response object.</typeparam>
     public class ResponseBucket<T>
     {
         [JsonProperty("actions", NullValueHandling = NullValueHandling.Ignore)]
