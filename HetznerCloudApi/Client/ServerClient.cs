@@ -74,7 +74,7 @@ namespace HetznerCloudApi.Client
         /// <param name="placementGroupId">ID of the Placement Group the server should be in</param>
         /// <param name="userData">Cloud-Init user data to use during Server creation. This field is limited to 32KiB.</param>
         /// <returns></returns>
-        public async Task<Server> Create(
+        public async Task<(Action, Server)> Create(
             eDataCenter dataCenter,
             long imageId,
             string name,
@@ -149,15 +149,7 @@ namespace HetznerCloudApi.Client
                 post.PlacementGroup = null;
             }
 
-            // Preparing raw
-            string raw = JsonConvert.SerializeObject(post, Formatting.Indented);
-
-            // Send post
-            string jsonResponse = await Core.SendPostRequest(_token, "/servers", raw);
-
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<Server>($"{result["server"]}") ?? new Server();
+            return await Create(post);
         }
 
         /// <summary>
@@ -239,9 +231,6 @@ namespace HetznerCloudApi.Client
 
             return (bucket.Action, server);
         }
-
-
-
 
 
 
