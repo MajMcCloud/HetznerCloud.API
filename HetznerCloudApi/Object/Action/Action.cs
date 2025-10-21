@@ -49,6 +49,11 @@ namespace HetznerCloudApi.Object.Action
     {
         [JsonProperty("action", NullValueHandling = NullValueHandling.Ignore)]
         public Action Action { get; set; } = new Action();
+
+        public static implicit operator Action(SimpleActionResponse response)
+        {
+            return response.Action;
+        }
     }
 
     public enum eActionStatus
