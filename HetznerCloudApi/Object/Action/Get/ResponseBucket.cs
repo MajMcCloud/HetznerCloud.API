@@ -81,6 +81,11 @@ namespace HetznerCloudApi.Object.Action.Get
             return (bucket.Action, bucket.Response);
         }
 
+        public static implicit operator (List<Action> actions, T response)(ResponseBucket<T> bucket)
+        {
+            return (bucket.Actions, bucket.Response);
+        }
+
         public static implicit operator Dictionary<string, JToken>(ResponseBucket<T> bucket)
         {
             return bucket.Objects;
