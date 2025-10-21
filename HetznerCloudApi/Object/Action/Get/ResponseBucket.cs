@@ -47,5 +47,15 @@ namespace HetznerCloudApi.Object.Action.Get
             return default(T2);
         }
 
+        public static implicit operator T(ResponseBucket<T> bucket)
+        {
+            return bucket.Response;
+        }
+
+        public static implicit operator (Action action, T response)(ResponseBucket<T> bucket)
+        {
+            return (bucket.Action, bucket.Response);
+        }
+
     }
 }
