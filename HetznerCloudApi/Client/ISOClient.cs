@@ -52,17 +52,10 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="actionId">ID of the Resource</param>
         /// <returns></returns>
-        public async Task<ISO> Get(long actionId)
+        public async Task<ISO> Get(long Id)
         {
-            // Get list
-            string json = await Core.SendGetRequest(_token, $"/isos/{actionId}");
-
-            // Set
-            JObject result = JObject.Parse(json);
-            ISO action = JsonConvert.DeserializeObject<ISO>($"{result["action"]}") ?? new ISO();
-
             // Return
-            return action;
+            return await Core.SendGetRequest<Object.Action.Get.ResponseBucket<ISO>>(_token, $"/isos/{Id}");
         }
     }
 }
