@@ -53,9 +53,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="id">ID of the resource</param>
         /// <returns></returns>
-        public async Task<Firewall> Get(long id)
+        public async Task<Object.Action.Get.ResponseBucket<Firewall>> Get(long id)
         {
-            return (await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{id}")).Response;
+            return (await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{id}"));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="name">Name of the Firewall</param>
         /// <returns></returns>
-        public async Task<Firewall> Create(string name)
+        public async Task<Object.Action.Get.ResponseBucket<Firewall>> Create(string name)
         {
             return await Create(new Firewall { Name = name });
         }
@@ -73,9 +73,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="name">Name of the Firewall</param>
         /// <returns></returns>
-        public async Task<Firewall> Create(Firewall new_firewall)
+        public async Task<Object.Action.Get.ResponseBucket<Firewall>> Create(Firewall new_firewall)
         {
-            return (await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, "/firewalls", new_firewall)).Response;
+            return (await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, "/firewalls", new_firewall));
         }
 
 
@@ -84,9 +84,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="firewall"></param>
         /// <returns></returns>
-        public async Task<Firewall> Update(Firewall firewall)
+        public async Task<Object.Action.Get.ResponseBucket<Firewall>> Update(Firewall firewall)
         {
-            return (await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{firewall.Id}", firewall)).Response;
+            return (await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{firewall.Id}", firewall));
         }
 
         /// <summary>
