@@ -46,17 +46,10 @@ namespace HetznerCloudApi.Client
             }
         }
 
-        public async Task<Server> Get(long id)
+        public async Task<Object.Action.Get.ResponseBucket<Server>> Get(long id)
         {
-            // Get list
-            string json = await Core.SendGetRequest(_token, $"/servers/{id}");
-
-            // Set
-            JObject result = JObject.Parse(json);
-            Server server = JsonConvert.DeserializeObject<Server>($"{result["server"]}") ?? null;
-
             // Return
-            return server;
+            return await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Server>>(_token, $"/servers/{id}");
         }
 
         /// <summary>
@@ -74,7 +67,7 @@ namespace HetznerCloudApi.Client
         /// <param name="placementGroupId">ID of the Placement Group the server should be in</param>
         /// <param name="userData">Cloud-Init user data to use during Server creation. This field is limited to 32KiB.</param>
         /// <returns></returns>
-        public async Task<(Action, Server)> Create(
+        public async Task<Object.Action.Get.ResponseBucket<Server>> Create(
             eDataCenter dataCenter,
             long imageId,
             string name,
@@ -167,7 +160,7 @@ namespace HetznerCloudApi.Client
         /// <param name="placementGroupId">ID of the Placement Group the server should be in</param>
         /// <param name="userData">Cloud-Init user data to use during Server creation. This field is limited to 32KiB.</param>
         /// <returns></returns>
-        public async Task<(Action, Server)> Create(
+        public async Task<Object.Action.Get.ResponseBucket<Server>> Create(
             long datacenterId,
             long imageId,
             string name,
@@ -220,16 +213,14 @@ namespace HetznerCloudApi.Client
             return await Create(post);
         }
 
-        public async Task<(Action, Server)> Create(CreateServerRequest post)
+        public async Task<Object.Action.Get.ResponseBucket<Server>> Create(CreateServerRequest post)
         {
             // Send post
             var bucket = await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Server>>(_token, "/servers", post);
 
-            var server = bucket.Response;
+            bucket.Response.RootPassword = bucket.GetObject<string>("root_password");
 
-            server.RootPassword = bucket.GetObject<string>("root_password");
-
-            return (bucket.Action, server);
+            return bucket;
         }
 
 
@@ -239,11 +230,9 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="server"></param>
         /// <returns></returns>
-        public async Task<(Action, Server)> Update(Server server)
+        public async Task<Object.Action.Get.ResponseBucket<Server>> Update(Server server)
         {
-            var response = await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Server>>(_token, $"/servers/{server.Id}", server);
-
-            return (response.Action, response.Response);
+            return await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Server>>(_token, $"/servers/{server.Id}", server);
         }
 
         /// <summary>
