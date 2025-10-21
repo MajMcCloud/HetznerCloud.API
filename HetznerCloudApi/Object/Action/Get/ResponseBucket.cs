@@ -16,6 +16,7 @@ namespace HetznerCloudApi.Object.Action.Get
     /// <item><description><c>Action action = responseBucket;</c> – Returns the action object.</description></item>
     /// <item><description><c>List&lt;Action&gt; actions = responseBucket;</c> – Returns the list of actions.</description></item>
     /// <item><description><c>(Action action, T response) = responseBucket;</c> – Returns a tuple of action and response.</description></item>
+    /// <item><description><c>(List&lt;Action&gt; actions, T response) = responseBucket;</c> – Returns a tuple of actions and response.</description></item>
     /// <item><description><c>Dictionary&lt;string, JToken&gt; dict = responseBucket;</c> – Returns the object dictionary.</description></item>
     /// </list>
     /// </remarks>
