@@ -52,18 +52,11 @@ namespace HetznerCloudApi.Client
         /// Gets a specific network object.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns><see cref="Network"/></returns>
         public async Task<Network> Get(long id)
         {
-            // Get list
-            string json = await Core.SendGetRequest(_token, $"/networks/{id}");
-
-            // Set
-            JObject result = JObject.Parse(json);
-            Network network = JsonConvert.DeserializeObject<Network>($"{result["network"]}") ?? new Network();
-
             // Return
-            return network;
+            return await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Network>>(_token, $"/networks/{id}");
         }
 
         /// <summary>
@@ -71,36 +64,25 @@ namespace HetznerCloudApi.Client
         /// </summary>
         /// <param name="name"></param>
         /// <param name="ipRange"></param>
-        /// <returns></returns>
+        /// <returns><see cref="Network"/></returns>
         public async Task<Network> Create(string name, string ipRange)
         {
-            // Preparing raw
-            string raw = $"{{ \"name\": \"{name}\", \"ip_range\": \"{ipRange}\" }}";
+            return await Create(new Network { Name = name, IpRange = ipRange });
+        }
 
-            // Send post
-            string jsonResponse = await Core.SendPostRequest(_token, "/networks", raw);
-
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<Network>($"{result["network"]}") ?? new Network();
+        public async Task<Network> Create(Network network)
+        {
+            return await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Network>>(_token, "/networks", network);
         }
 
         /// <summary>
         /// Update the network name.
         /// </summary>
         /// <param name="network"></param>
-        /// <returns></returns>
+        /// <returns><see cref="Network"/></returns>
         public async Task<Network> Update(Network network)
         {
-            // Preparing raw
-            string raw = $"{{ \"name\": \"{network.Name}\" }}";
-
-            // Send post
-            string jsonResponse = await Core.SendPutRequest(_token, $"/networks/{network.Id}", raw);
-
-            // Return
-            JObject result = JObject.Parse(jsonResponse);
-            return JsonConvert.DeserializeObject<Network>($"{result["network"]}") ?? new Network();
+            return await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Network>>(_token, $"/networks/{network.Id}", network);
         }
 
         /// <summary>
