@@ -91,5 +91,14 @@ namespace HetznerCloudApi.Object.Action.Get
         {
             return bucket.Objects;
         }
+
+        public void Deconstruct(out Action action, out T response)
+        {
+            action = this.Action;
+            response = this.Response;
+        }
+
+
+
     }
 }
