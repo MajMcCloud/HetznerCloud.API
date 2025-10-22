@@ -50,7 +50,7 @@ namespace HetznerCloudApi.Object.PrimaryIPs
         public ePrimaryIPAssigneeType Assignee_Type { get; set; }
 
         [JsonProperty("assignee_id", NullValueHandling = NullValueHandling.Ignore)]
-        public int? Assignee_Id { get; set; }
+        public long? Assignee_Id { get; set; }
 
 
 
