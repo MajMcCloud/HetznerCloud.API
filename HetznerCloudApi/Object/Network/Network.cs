@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
 using Newtonsoft.Json.Converters;
+using System.Diagnostics;
 
 namespace HetznerCloudApi.Object.Network
 {
@@ -72,6 +73,7 @@ namespace HetznerCloudApi.Object.Network
         public bool ExposeRoutesToVswitch { get; set; } = false;
     }
 
+    [DebuggerDisplay("Destination={Destination}, Gateway={Gateway}")]
     public class Route
     {
         /// <summary>
@@ -87,6 +89,7 @@ namespace HetznerCloudApi.Object.Network
         public string Gateway { get; set; } = string.Empty;
     }
 
+    [DebuggerDisplay("Type={Type}, IpRange={IpRange}, NetworkZone={NetworkZone}, Gateway={Gateway}, VswitchId={VswitchId}")]
     public class Subnet
     {
         /// <summary>
