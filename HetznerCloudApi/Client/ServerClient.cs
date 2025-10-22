@@ -46,7 +46,7 @@ namespace HetznerCloudApi.Client
             }
         }
 
-        public async Task<Object.Action.Get.ResponseBucket<Server>> Get(long id)
+        public async Task<Server> Get(long id)
         {
             // Return
             return await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Server>>(_token, $"/servers/{id}");
