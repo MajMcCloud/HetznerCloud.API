@@ -116,6 +116,12 @@ namespace HetznerCloudApi.Object.Network
         /// </summary>
         [JsonProperty("gateway", NullValueHandling = NullValueHandling.Ignore)]
         public string Gateway { get; set; } = string.Empty;
+
+        /// <summary>
+        /// ID of the robot vSwitch if the subnet is of type vswitch.
+        /// </summary>
+        [JsonProperty("vswitch_id", NullValueHandling = NullValueHandling.Ignore)]
+        public long? VswitchId { get; set; }
     }
 
     public enum eSubnetType
