@@ -44,6 +44,12 @@ namespace HetznerCloudApi.Object.Action
         public string Type { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// Represents a response containing details about an action, including its command and status.
+    /// </summary>
+    /// <remarks>This class provides a wrapper for an <see cref="Action"/> object, allowing it to be
+    /// serialized and deserialized with JSON. It also supports implicit conversion to the <see cref="Action"/>
+    /// type.</remarks>
     [DebuggerDisplay("{Action.Command}: {Action.Status}")]
     public class SimpleActionResponse
     {
