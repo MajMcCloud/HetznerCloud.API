@@ -55,7 +55,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Object.Action.Get.ResponseBucket<Firewall>> Get(long id)
         {
-            return (await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{id}"));
+            return await Core.SendGetRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{id}");
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Object.Action.Get.ResponseBucket<Firewall>> Create(Firewall new_firewall)
         {
-            return (await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, "/firewalls", new_firewall));
+            return await Core.SendPostRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, "/firewalls", new_firewall);
         }
 
 
@@ -86,7 +86,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Object.Action.Get.ResponseBucket<Firewall>> Update(Firewall firewall)
         {
-            return (await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{firewall.Id}", firewall));
+            return await Core.SendPutRequest<Object.Action.Get.ResponseBucket<Firewall>>(_token, $"/firewalls/{firewall.Id}", firewall);
         }
 
         /// <summary>

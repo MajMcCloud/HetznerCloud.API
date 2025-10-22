@@ -101,10 +101,7 @@ namespace HetznerCloudApi.Client
                 apply_to = appliedTo
             };
 
-            // Send update
-            var jsonResponse = await Core.SendPostRequest<ResponseBucket<string>>(_token, $"/firewalls/{firewallId}/actions/apply_to_resources", temp);
-
-            return jsonResponse.Actions;
+            return await Core.SendPostRequest<ResponseBucket<string>>(_token, $"/firewalls/{firewallId}/actions/apply_to_resources", temp);
         }
 
         /// <summary>
@@ -132,10 +129,7 @@ namespace HetznerCloudApi.Client
                 remove_from = removeFrom
             };
 
-            // Send update
-            var jsonResponse = await Core.SendPostRequest<ResponseBucket<string>>(_token, $"/firewalls/{firewallId}/actions/remove_from_resources", temp);
-
-            return jsonResponse.Actions;
+            return await Core.SendPostRequest<ResponseBucket<string>>(_token, $"/firewalls/{firewallId}/actions/remove_from_resources", temp);
 
         }
 
