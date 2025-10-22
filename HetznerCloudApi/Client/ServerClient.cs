@@ -242,7 +242,7 @@ namespace HetznerCloudApi.Client
         /// <returns></returns>
         public async Task<Object.Action.Action> Delete(long id)
         {
-            return (await Core.SendDeleteRequest<SimpleActionResponse>(_token, $"/servers/{id}")).Action;
+            return await Core.SendDeleteRequest<SimpleActionResponse>(_token, $"/servers/{id}");
         }
 
         /// <summary>
