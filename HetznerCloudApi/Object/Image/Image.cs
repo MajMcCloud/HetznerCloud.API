@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HetznerCloudApi.Object.ServerType;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -92,10 +93,13 @@ namespace HetznerCloudApi.Object.Image
         //public object Deleted { get; set; }
 
         /// <summary>
-        /// Type of cpu architecture this image is compatible with.
+        /// Possible enum values:
+        /// x86, arm
+        /// Type of cpu architecture
         /// </summary>
         [JsonProperty("architecture", NullValueHandling = NullValueHandling.Ignore)]
-        public string Architecture { get; set; } = string.Empty;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public eArchitectureType Architecture { get; set; } = eArchitectureType.Unknown;
     }
 
     public enum eImageStatus
